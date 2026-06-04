@@ -1,20 +1,34 @@
 import { useState } from "react";
-import { names, nouns } from "./words";
+import { names, adjectives, nouns } from "./words";
 import "./App.css";
 
 function pickRandom(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
-// Total distinct usernames (for the footer).
-const totalCombos = names.length * nouns.length;
+// Each pattern returns a username string. One is chosen at random per press,
+// so the result varies in shape — sometimes two words, sometimes just one.
+// e.g. "Captain Pickle", "Hot Stuff", "Wet Toilet", or just "Toilet".
+const patterns = [
+  () => `${pickRandom(names)} ${pickRandom(nouns)}`, // Name + Noun
+  () => `${pickRandom(adjectives)} ${pickRandom(nouns)}`, // Adjective + Noun
+  () => pickRandom(nouns), // single noun
+  () => pickRandom(adjectives), // single adjective
+];
+
+// Total distinct usernames across all patterns (for the footer).
+const totalCombos =
+  names.length * nouns.length +
+  adjectives.length * nouns.length +
+  nouns.length +
+  adjectives.length;
 
 function App() {
   const [username, setUsername] = useState(null);
   const [copied, setCopied] = useState(false);
 
   function generate() {
-    setUsername(`${pickRandom(names)} ${pickRandom(nouns)}`);
+    setUsername(pickRandom(patterns)());
     setCopied(false);
   }
 
@@ -27,7 +41,7 @@ function App() {
   return (
     <main className="app">
       <h1>🎲 Funny Username Generator</h1>
-      <p className="tagline">One random name + one random noun. Press the button.</p>
+      <p className="tagline">Names, adjectives & nouns, mixed at random — sometimes just one word. Press the button.</p>
 
       <div className="result" aria-live="polite">
         {username ? (
@@ -47,8 +61,8 @@ function App() {
       </div>
 
       <footer>
-        {names.length} names × {nouns.length} nouns →{" "}
-        {totalCombos.toLocaleString()} possible usernames
+        {names.length} names · {adjectives.length} adjectives ·{" "}
+        {nouns.length} nouns → {totalCombos.toLocaleString()} possible usernames
       </footer>
     </main>
   );

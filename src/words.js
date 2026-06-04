@@ -1,6 +1,6 @@
-// Two source lists for the generator.
-// A username = one random NAME/TITLE + one random NOUN/OBJECT.
-// Examples: "Captain Pickle", "King Waffle", "Big Doctor Sneeze"
+// Three source lists for the generator. App.jsx picks a random PATTERN each
+// press, so output varies in shape — sometimes two words, sometimes one.
+// Examples: "Captain Pickle", "Hot Stuff", "Wet Toilet", or just "Toilet"
 
 export const names = [
   "Michael",
@@ -48,6 +48,37 @@ export const names = [
   "Ninja",
   "Pirate",
   "Knight",
+];
+
+export const adjectives = [
+  "Hot",
+  "Wet",
+  "Soggy",
+  "Feral",
+  "Sleepy",
+  "Angry",
+  "Greasy",
+  "Sneaky",
+  "Damp",
+  "Mighty",
+  "Crusty",
+  "Anxious",
+  "Sassy",
+  "Chunky",
+  "Wobbly",
+  "Spicy",
+  "Forbidden",
+  "Discount",
+  "Haunted",
+  "Suspicious",
+  "Unhinged",
+  "Vintage",
+  "Bootleg",
+  "Emotional",
+  "Slippery",
+  "Cursed",
+  "Majestic",
+  "Stinky",
 ];
 
 export const nouns = [
@@ -105,4 +136,9 @@ export const nouns = [
   "Jellybean",
   "Catfish",
   "Snickerdoodle",
+  "Stuff",
+  "Toilet",
+  "Sock",
+  "Gizmo",
+  "Blob",
 ];
