@@ -40,7 +40,7 @@ function App() {
   return (
     <main className="app">
       <h1>🎲 Funny Username Generator</h1>
-      <p className="tagline">One random name + one random noun. Press the button.</p>
+      <p className="tagline">Random names, adjectives & nouns, mixed up. Press the button.</p>
 
       <div className="result" aria-live="polite">
         {username ? (
