@@ -61,4 +61,7 @@ export const nouns = [
   "Yeti",
   "Tornado",
   "Cabbage",
+  "Llama",
+  "Dumpster",
+  "Kazoo",
 ];
