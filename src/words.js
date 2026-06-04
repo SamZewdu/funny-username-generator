@@ -1,6 +1,7 @@
-// Three source lists for the generator. App.jsx picks a random PATTERN each
-// press, so output varies in shape — sometimes two words, sometimes one.
-// Examples: "Captain Pickle", "Hot Stuff", "Wet Toilet", or just "Toilet"
+// Word lists for the generator. App.jsx picks a random PATTERN each press, so
+// output varies in shape and order — and sometimes gets gamertag styling.
+// Examples: "Warm Bag", "Jason Flat Top", "Jerry Potassium", "The Stain",
+// "Packing Evan", "Skip", or styled like "xXTheStainXx" / "WarmBag_rl"
 
 export const names = [
   "Michael",
@@ -79,6 +80,33 @@ export const adjectives = [
   "Cursed",
   "Majestic",
   "Stinky",
+];
+
+export const verbs = [
+  "Skip",
+  "Packing",
+  "Overload",
+  "Dancing",
+  "Yeeting",
+  "Vibing",
+  "Lurking",
+  "Spinning",
+  "Screaming",
+  "Floating",
+  "Glitching",
+  "Buffering",
+  "Lagging",
+  "Dunking",
+  "Smashing",
+  "Vanishing",
+  "Snacking",
+  "Napping",
+  "Hustling",
+  "Wandering",
+  "Cruising",
+  "Munching",
+  "Bonking",
+  "Sprinting",
 ];
 
 export const nouns = [

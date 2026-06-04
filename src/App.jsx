@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { names, adjectives, nouns } from "./words";
+import { names, adjectives, verbs, nouns } from "./words";
 import "./App.css";
 
 function pickRandom(list) {
@@ -7,28 +7,56 @@ function pickRandom(list) {
 }
 
 // Each pattern returns a username string. One is chosen at random per press,
-// so the result varies in shape — sometimes two words, sometimes just one.
-// e.g. "Captain Pickle", "Hot Stuff", "Wet Toilet", or just "Toilet".
+// so the result varies in shape and word order — sometimes just one word.
 const patterns = [
-  () => `${pickRandom(names)} ${pickRandom(nouns)}`, // Name + Noun
-  () => `${pickRandom(adjectives)} ${pickRandom(nouns)}`, // Adjective + Noun
+  () => `${pickRandom(adjectives)} ${pickRandom(nouns)}`, // Warm Bag
+  () => `${pickRandom(names)} ${pickRandom(nouns)}`, // Jerry Potassium
+  () => `${pickRandom(names)} ${pickRandom(adjectives)} ${pickRandom(nouns)}`, // Jason Flat Top
+  () => `The ${pickRandom(nouns)}`, // The Stain
+  () => `${pickRandom(verbs)} ${pickRandom(names)}`, // Packing Evan (order swapped)
+  () => `${pickRandom(names)} ${pickRandom(verbs)}`, // Tommy Overload
+  () => `${pickRandom(adjectives)} ${pickRandom(names)}`, // adjective + name
+  () => pickRandom(verbs), // Skip (single word)
   () => pickRandom(nouns), // single noun
-  () => pickRandom(adjectives), // single adjective
 ];
 
-// Total distinct usernames across all patterns (for the footer).
+// Gamertag-style decorations, applied to some results at random. Spaces are
+// stripped first so they read like real tags (e.g. "xXWarmBagXx").
+const decorations = [
+  (b) => `xX${b}Xx`,
+  (b) => `${b}_rl`,
+  (b) => `${b}r6`,
+  (b) => `${b}FN`,
+];
+
+// Roughly how many base usernames are possible (before styling); for the footer.
 const totalCombos =
-  names.length * nouns.length +
   adjectives.length * nouns.length +
+  names.length * nouns.length +
+  names.length * adjectives.length * nouns.length +
   nouns.length +
-  adjectives.length;
+  verbs.length * names.length +
+  names.length * verbs.length +
+  adjectives.length * names.length +
+  verbs.length +
+  nouns.length;
 
 function App() {
   const [username, setUsername] = useState(null);
   const [copied, setCopied] = useState(false);
 
+  // Suggestion form state
+  const [suggestion, setSuggestion] = useState("");
+  const [status, setStatus] = useState(null); // "sending" | "ok" | "error"
+
   function generate() {
-    setUsername(pickRandom(patterns)());
+    let result = pickRandom(patterns)();
+    // ~30% of the time, apply a gamertag-style decoration.
+    if (Math.random() < 0.3) {
+      const base = result.replace(/\s+/g, "");
+      result = pickRandom(decorations)(base);
+    }
+    setUsername(result);
     setCopied(false);
   }
 
@@ -38,10 +66,29 @@ function App() {
     setCopied(true);
   }
 
+  async function submitSuggestion(e) {
+    e.preventDefault();
+    const text = suggestion.trim();
+    if (!text || status === "sending") return;
+    setStatus("sending");
+    try {
+      const res = await fetch("/api/suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ suggestion: text }),
+      });
+      if (!res.ok) throw new Error("request failed");
+      setStatus("ok");
+      setSuggestion("");
+    } catch {
+      setStatus("error");
+    }
+  }
+
   return (
     <main className="app">
       <h1>🎲 Funny Username Generator</h1>
-      <p className="tagline">Names, adjectives & nouns, mixed at random — sometimes just one word. Press the button.</p>
+      <p className="tagline">Names, adjectives, verbs & nouns — mixed and reordered at random, sometimes with gamertag flair. Press the button.</p>
 
       <div className="result" aria-live="polite">
         {username ? (
@@ -62,8 +109,39 @@ function App() {
 
       <footer>
         {names.length} names · {adjectives.length} adjectives ·{" "}
-        {nouns.length} nouns → {totalCombos.toLocaleString()} possible usernames
+        {verbs.length} verbs · {nouns.length} nouns →{" "}
+        {totalCombos.toLocaleString()}+ base combos
       </footer>
+
+      <section className="suggest">
+        <h2>Suggest a word or username</h2>
+        <p className="suggest-sub">
+          Got a funnier idea? Send it in — good ones get added to the generator.
+        </p>
+        <form className="suggest-form" onSubmit={submitSuggestion}>
+          <input
+            type="text"
+            value={suggestion}
+            maxLength={200}
+            placeholder="e.g. Soggy Walrus, or just 'Toilet'"
+            onChange={(e) => {
+              setSuggestion(e.target.value);
+              if (status) setStatus(null);
+            }}
+          />
+          <button type="submit" disabled={!suggestion.trim() || status === "sending"}>
+            {status === "sending" ? "Sending…" : "Submit"}
+          </button>
+        </form>
+        {status === "ok" && (
+          <p className="suggest-msg ok">Thanks! Your suggestion was sent. 🎉</p>
+        )}
+        {status === "error" && (
+          <p className="suggest-msg error">
+            Couldn’t send that — please try again in a moment.
+          </p>
+        )}
+      </section>
     </main>
   );
 }

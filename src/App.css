@@ -86,3 +86,72 @@ footer {
   font-size: 0.85rem;
   color: #6b6b7a;
 }
+
+.suggest {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #2a2a38;
+}
+
+.suggest h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+
+.suggest-sub {
+  color: #8b8b9a;
+  font-size: 0.9rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.suggest-form {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.suggest-form input {
+  flex: 1;
+  max-width: 320px;
+  padding: 0.65rem 0.9rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #3a3a4a;
+  background: rgba(255, 255, 255, 0.04);
+  color: #e0e0ec;
+}
+
+.suggest-form input:focus {
+  outline: none;
+  border-color: #7c5cff;
+}
+
+.suggest-form button {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.65rem 1.3rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(90deg, #7c5cff, #ff5cae);
+  color: white;
+}
+
+.suggest-form button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.suggest-msg {
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.suggest-msg.ok {
+  color: #5ed29a;
+}
+
+.suggest-msg.error {
+  color: #ff7a7a;
+}
