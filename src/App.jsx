@@ -20,12 +20,20 @@ const patterns = [
   () => pickRandom(nouns), // single noun
 ];
 
+// A random run of 1–4 digits (may include leading zeros, e.g. "7", "42", "0099").
+function randomDigits() {
+  const len = 1 + Math.floor(Math.random() * 4); // 1–4
+  let s = "";
+  for (let i = 0; i < len; i++) s += Math.floor(Math.random() * 10);
+  return s;
+}
+
 // Gamertag-style decorations, applied to some results at random. Spaces are
-// stripped first so they read like real tags (e.g. "xXWarmBagXx").
+// stripped first so they read like real tags (e.g. "xXWarmBagXx", "WarmBagr42").
 const decorations = [
   (b) => `xX${b}Xx`,
-  (b) => `${b}_rl`,
-  (b) => `${b}r6`,
+  (b) => `${b}_RL`,
+  (b) => `${b}r${randomDigits()}`,
   (b) => `${b}FN`,
 ];
 
