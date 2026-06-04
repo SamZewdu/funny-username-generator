@@ -1,33 +1,20 @@
 import { useState } from "react";
-import { names, adjectives, nouns } from "./words";
+import { names, nouns } from "./words";
 import "./App.css";
 
 function pickRandom(list) {
   return list[Math.floor(Math.random() * list.length)];
 }
 
-// Each pattern is a function returning a username string. One is chosen at
-// random per press, so the *shape* of the result varies, not just the words.
-const patterns = [
-  () => `${pickRandom(names)} ${pickRandom(nouns)}`,
-  () => `${pickRandom(adjectives)} ${pickRandom(nouns)}`,
-  () => `The ${pickRandom(adjectives)} ${pickRandom(nouns)}`,
-  () => `${pickRandom(names)} ${pickRandom(adjectives)} ${pickRandom(nouns)}`,
-];
-
-// Total distinct usernames across all patterns (for the footer).
-const totalCombos =
-  names.length * nouns.length +
-  adjectives.length * nouns.length +
-  adjectives.length * nouns.length +
-  names.length * adjectives.length * nouns.length;
+// Total distinct usernames (for the footer).
+const totalCombos = names.length * nouns.length;
 
 function App() {
   const [username, setUsername] = useState(null);
   const [copied, setCopied] = useState(false);
 
   function generate() {
-    setUsername(pickRandom(patterns)());
+    setUsername(`${pickRandom(names)} ${pickRandom(nouns)}`);
     setCopied(false);
   }
 
@@ -40,7 +27,7 @@ function App() {
   return (
     <main className="app">
       <h1>🎲 Funny Username Generator</h1>
-      <p className="tagline">Random names, adjectives & nouns, mixed up. Press the button.</p>
+      <p className="tagline">One random name + one random noun. Press the button.</p>
 
       <div className="result" aria-live="polite">
         {username ? (
@@ -60,8 +47,8 @@ function App() {
       </div>
 
       <footer>
-        {names.length} names · {adjectives.length} adjectives ·{" "}
-        {nouns.length} nouns → {totalCombos.toLocaleString()} possible usernames
+        {names.length} names × {nouns.length} nouns →{" "}
+        {totalCombos.toLocaleString()} possible usernames
       </footer>
     </main>
   );

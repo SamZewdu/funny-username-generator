@@ -1,6 +1,6 @@
-// Three source lists. The generator randomly picks a PATTERN (see App.jsx)
-// and fills it from these, so output shape varies for more variety/humor.
-// Examples: "Captain Pickle", "Soggy Wizard", "The Feral Gravy", "Big Doctor Sneeze"
+// Two source lists for the generator.
+// A username = one random NAME/TITLE + one random NOUN/OBJECT.
+// Examples: "Captain Pickle", "King Waffle", "Big Doctor Sneeze"
 
 export const names = [
   "Michael",
@@ -28,34 +28,6 @@ export const names = [
   "Pope",
   "Coach",
   "Grandma",
-];
-
-export const adjectives = [
-  "Soggy",
-  "Feral",
-  "Sleepy",
-  "Angry",
-  "Greasy",
-  "Sneaky",
-  "Damp",
-  "Mighty",
-  "Crusty",
-  "Anxious",
-  "Sassy",
-  "Chunky",
-  "Wobbly",
-  "Spicy",
-  "Forbidden",
-  "Discount",
-  "Haunted",
-  "Reformed",
-  "Mildly-Concerned",
-  "Suspicious",
-  "Unhinged",
-  "Vintage",
-  "Bootleg",
-  "Radioactive",
-  "Emotional",
 ];
 
 export const nouns = [
